@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Component Library Leaderboard</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Fira+Mono:wght@400;700&display=swap');
+    
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
+    body {
+      font-family: 'Fira Mono', monospace;
+      background: linear-gradient(to bottom, #ffffff, #f2f2f2);
+      width: 400px;
+      height: 600px;
+      overflow: hidden;
+    }
+    
+    .container {
+      padding: 16px 24px;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .header {
+      margin-bottom: 20px;
+    }
+    
+    .title {
+      font-weight: 700;
+      font-size: 16px;
+      line-height: 30px;
+      color: #000000;
+      margin-bottom: 4px;
+    }
+    
+    .subtitle {
+      font-weight: 400;
+      font-size: 13px;
+      color: rgba(0, 0, 0, 0.8);
+      line-height: normal;
+    }
+    
+    .controls {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+    
+    .refresh-btn {
+      font-family: 'Fira Mono', monospace;
+      padding: 4px 12px;
+      background: #3b82f6;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      font-size: 12px;
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+    
+    .refresh-btn:hover {
+      background: #2563eb;
+    }
+    
+    .refresh-btn:disabled {
+      background: #9ca3af;
+      cursor: not-allowed;
+    }
+    
+    .cards-container {
+      flex: 1;
+      overflow-y: auto;
+    }
+    
+    .card {
+      border-radius: 8px;
+      overflow: hidden;
+      margin-bottom: 8px;
+      position: relative;
+    }
+    
+    .card-rank-1 {
+      background: linear-gradient(to right, #fed94d, #ffea75);
+    }
+    
+    .card-rank-2 {
+      background: linear-gradient(to right, #d4d9c3, #dddfd3);
+    }
+    
+    .card-rank-3 {
+      background: linear-gradient(to right, #db823a, #f4b278);
+    }
+    
+    .card-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 24px;
+    }
+    
+    .card-left {
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .card-name {
+      font-weight: 700;
+      font-size: 16px;
+      line-height: 30px;
+      color: #000000;
+      white-space: nowrap;
+    }
+    
+    .card-subtitle {
+      font-weight: 400;
+      font-size: 13px;
+      color: #000000;
+      opacity: 0.8;
+      white-space: nowrap;
+    }
+    
+    .card-score {
+      font-weight: 700;
+      font-size: 48px;
+      line-height: 1;
+      color: #000000;
+      text-align: center;
+    }
+    
+    .card-divider {
+      height: 1px;
+      background: white;
+      opacity: 0.4;
+      margin: 0;
+    }
+    
+    .card-bottom {
+      display: flex;
+      justify-content: space-between;
+      padding: 16px 24px;
+    }
+    
+    .stat-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+    
+    .stat-number {
+      font-weight: 700;
+      font-size: 16px;
+      color: #000000;
+      line-height: normal;
+    }
+    
+    .stat-label {
+      font-weight: 400;
+      font-size: 13px;
+      color: #000000;
+      opacity: 0.8;
+      line-height: normal;
+    }
+    
+    .loading {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      font-family: 'Fira Mono', monospace;
+      color: #000000;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <div class="title">Component Library leaderboard</div>
+      <div class="subtitle">Track your design system contributions and celebrate heroes</div>
+    </div>
+    
+    <div class="cards-container" id="cardsContainer">
+      <!-- Cards will be inserted here -->
+    </div>
+  </div>
+
+  <script>
+    let contributors = [
+      {
+        id: 1,
+        name: 'Sarah Chen',
+        subtitle: 'The Aesthetic Apex',
+        stats: {
+          newComponents: 12,
+          updates: 34,
+          bugFixes: 8,
+          documentation: 15,
+          total: 69
+        }
+      },
+      {
+        id: 2,
+        name: 'Marcus Johnson',
+        subtitle: 'The Code Craftsman',
+        stats: {
+          newComponents: 8,
+          updates: 28,
+          bugFixes: 12,
+          documentation: 6,
+          total: 54
+        }
+      },
+      {
+        id: 3,
+        name: 'Emily Rodriguez',
+        subtitle: 'The Innovation Engine',
+        stats: {
+          newComponents: 15,
+          updates: 22,
+          bugFixes: 4,
+          documentation: 12,
+          total: 53
+        }
+      }
+    ];
+
+    function createContributorCard(contributor, rank) {
+      return `
+        <div class="card card-rank-${rank}">
+          <div class="card-top">
+            <div class="card-left">
+              <div class="card-name">${contributor.name}</div>
+              <div class="card-subtitle">${contributor.subtitle}</div>
+            </div>
+            <div class="card-score">${contributor.stats.total}</div>
+          </div>
+          <div class="card-divider"></div>
+          <div class="card-bottom">
+            <div class="stat-item">
+              <div class="stat-number">${contributor.stats.newComponents}</div>
+              <div class="stat-label">new</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-number">${contributor.stats.updates}</div>
+              <div class="stat-label">Updates</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-number">${contributor.stats.bugFixes}</div>
+              <div class="stat-label">Fixes</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-number">${contributor.stats.documentation}</div>
+              <div class="stat-label">Docs</div>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    function renderCards() {
+      const container = document.getElementById('cardsContainer');
+      const cardsHTML = contributors.map((contributor, index) => 
+        createContributorCard(contributor, index + 1)
+      ).join('');
+      container.innerHTML = cardsHTML;
+    }
+
+    function refreshData() {
+      // Send message to Figma backend for real data
+      if (typeof parent !== 'undefined') {
+        parent.postMessage({ pluginMessage: { type: 'get-component-data' } }, '*');
+      }
+    }
+
+    // Auto-refresh data every 30 seconds
+    setInterval(refreshData, 30000);
+
+    // Listen for messages from Figma
+    window.onmessage = (event) => {
+      const msg = event.data.pluginMessage;
+      if (msg && msg.type === 'component-data-response') {
+        contributors = msg.data;
+        renderCards();
+      }
+    };
+
+    // Initial render and data request
+    document.addEventListener('DOMContentLoaded', function() {
+      renderCards();
+      refreshData(); // Request fresh data from Figma
+    });
+
+    // Fallback if DOMContentLoaded already fired
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', function() {
+        renderCards();
+        refreshData();
+      });
+    } else {
+      renderCards();
+      refreshData();
+    }
+  </script>
+</body>
+</html>
