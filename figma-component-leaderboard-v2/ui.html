@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <title>Component Library Leaderboard</title>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Fira+Mono:wght@400;700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
     
     * {
       box-sizing: border-box;
@@ -13,65 +13,113 @@
     }
     
     body {
-      font-family: 'Fira Mono', monospace;
-      background: linear-gradient(to bottom, #ffffff, #f2f2f2);
+      font-family: 'Inter', sans-serif;
+      background: #f1f5f9;
       width: 400px;
       height: 600px;
       overflow: hidden;
     }
     
     .container {
-      padding: 16px 24px;
+      padding: 16px;
       height: 100%;
       display: flex;
       flex-direction: column;
     }
     
     .header {
-      margin-bottom: 20px;
+      margin-bottom: 16px;
     }
     
     .title {
       font-weight: 700;
       font-size: 16px;
-      line-height: 30px;
       color: #000000;
-      margin-bottom: 4px;
+      margin-bottom: 2px;
+      line-height: 1.2;
     }
     
     .subtitle {
       font-weight: 400;
       font-size: 13px;
-      color: rgba(0, 0, 0, 0.8);
-      line-height: normal;
+      color: #64748b;
+      line-height: 1.3;
     }
     
-    .controls {
+    .tabs {
       display: flex;
-      justify-content: space-between;
-      align-items: center;
+      justify-content: center;
+      margin-bottom: 16px;
+      position: relative;
+      border-top: 1px solid #e2e8f0;
+      padding-top: 8px;
+      margin-left: -16px;
+      margin-right: -16px;
+      padding-left: 16px;
+      padding-right: 16px;
+    }
+    
+    .tabs::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: -16px;
+      right: -16px;
+      height: 1px;
+      background: #e2e8f0;
+    }
+    
+    .tab {
+      padding: 8px 0 12px 0;
+      margin-right: 32px;
+      font-weight: 600;
+      font-size: 13px;
+      color: #94a3b8;
+      cursor: pointer;
+      border-bottom: 3px solid transparent;
+      transition: all 0.2s;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      position: relative;
+      z-index: 1;
+    }
+    
+    .tab.active {
+      color: #000000;
+      border-bottom-color: #000000;
+    }
+    
+    .filters {
+      display: flex;
+      gap: 8px;
       margin-bottom: 16px;
     }
     
-    .refresh-btn {
-      font-family: 'Fira Mono', monospace;
-      padding: 4px 12px;
-      background: #3b82f6;
-      color: white;
-      border: none;
+    .filter-group {
+      flex: 1;
+    }
+    
+    .filter-label {
+      font-size: 13px;
+      font-weight: 500;
+      color: #000000;
+      margin-bottom: 4px;
+    }
+    
+    .filter-select {
+      width: 100%;
+      padding: 6px 24px 6px 8px;
+      border: 1px solid #cbd5e1;
       border-radius: 4px;
-      font-size: 12px;
+      font-size: 13px;
+      background: white;
       cursor: pointer;
-      transition: background-color 0.2s;
-    }
-    
-    .refresh-btn:hover {
-      background: #2563eb;
-    }
-    
-    .refresh-btn:disabled {
-      background: #9ca3af;
-      cursor: not-allowed;
+      font-family: 'Inter', sans-serif;
+      appearance: none;
+      background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6,9 12,15 18,9'%3e%3c/polyline%3e%3c/svg%3e");
+      background-repeat: no-repeat;
+      background-position: right 8px center;
+      background-size: 16px;
     }
     
     .cards-container {
@@ -81,76 +129,84 @@
     
     .card {
       border-radius: 8px;
-      overflow: hidden;
       margin-bottom: 8px;
+      padding: 12px;
       position: relative;
     }
     
     .card-rank-1 {
-      background: linear-gradient(to right, #fed94d, #ffea75);
+      background: #fde047;
     }
     
     .card-rank-2 {
-      background: linear-gradient(to right, #d4d9c3, #dddfd3);
+      background: #e2e8f0;
     }
     
     .card-rank-3 {
-      background: linear-gradient(to right, #db823a, #f4b278);
+      background: #fdba74;
     }
     
-    .card-top {
+    .card-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 16px 24px;
+      margin-bottom: 12px;
     }
     
-    .card-left {
+    .card-info {
       display: flex;
-      flex-direction: column;
+      align-items: center;
+      gap: 8px;
     }
     
-    .card-name {
+    .trophy-icon {
+      width: 24px;
+      height: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      background: rgba(255, 255, 255, 0.4);
+      border-radius: 50%;
+    }
+    
+    .card-details h3 {
       font-weight: 700;
-      font-size: 16px;
-      line-height: 30px;
+      font-size: 14px;
       color: #000000;
-      white-space: nowrap;
+      margin-bottom: 0;
+      line-height: 1.2;
     }
     
-    .card-subtitle {
-      font-weight: 400;
-      font-size: 13px;
+    .card-details p {
+      font-size: 12px;
       color: #000000;
+      font-weight: 400;
       opacity: 0.8;
-      white-space: nowrap;
+      line-height: 1.2;
     }
     
     .card-score {
-      font-weight: 700;
-      font-size: 48px;
-      line-height: 1;
+      font-weight: 900;
+      font-size: 32px;
       color: #000000;
-      text-align: center;
+      line-height: 1;
     }
     
-    .card-divider {
-      height: 1px;
-      background: white;
-      opacity: 0.4;
-      margin: 0;
-    }
-    
-    .card-bottom {
-      display: flex;
-      justify-content: space-between;
-      padding: 16px 24px;
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 70px;
+      margin-bottom: 8px;
+      border-top: 1px solid rgba(255, 255, 255, 0.4);
+      padding-top: 8px;
+      margin-left: -12px;
+      margin-right: -12px;
+      padding-left: 12px;
+      padding-right: 12px;
     }
     
     .stat-item {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
       text-align: center;
     }
     
@@ -158,24 +214,67 @@
       font-weight: 700;
       font-size: 16px;
       color: #000000;
-      line-height: normal;
+      display: block;
+      line-height: 1.2;
     }
     
     .stat-label {
-      font-weight: 400;
-      font-size: 13px;
+      font-size: 11px;
       color: #000000;
+      font-weight: 400;
       opacity: 0.8;
-      line-height: normal;
+      line-height: 1.2;
     }
     
-    .loading {
-      display: flex;
+    .achievement {
+      display: inline-flex;
       align-items: center;
-      justify-content: center;
-      height: 100%;
-      font-family: 'Fira Mono', monospace;
+      gap: 4px;
+      padding: 2px 6px;
+      background: rgba(255, 255, 255, 0.6);
+      border-radius: 8px;
+      font-size: 11px;
+      font-weight: 500;
       color: #000000;
+      margin-right: 6px;
+    }
+    
+    .achievement-icon {
+      font-size: 11px;
+    }
+    
+    .achievement-bonus {
+      font-weight: 600;
+      color: #000000;
+    }
+    
+    .achievements {
+      border-top: 1px solid rgba(255, 255, 255, 0.4);
+      padding-top: 6px;
+      margin-top: 4px;
+      margin-left: -12px;
+      margin-right: -12px;
+      padding-left: 12px;
+      padding-right: 12px;
+    }
+    
+    .settings-content {
+      display: none;
+      padding: 20px 0;
+      text-align: center;
+      color: #64748b;
+    }
+    
+    .settings-content.active {
+      display: block;
+    }
+    
+    .leaderboard-content.active {
+      display: block;
+    }
+    
+    .leaderboard-content {
+      display: none;
     }
   </style>
 </head>
@@ -186,8 +285,41 @@
       <div class="subtitle">Track your design system contributions and celebrate heroes</div>
     </div>
     
-    <div class="cards-container" id="cardsContainer">
-      <!-- Cards will be inserted here -->
+    <div class="tabs">
+      <div class="tab active" data-tab="leaderboard">LEADERBOARD</div>
+      <div class="tab" data-tab="settings">SETTINGS</div>
+    </div>
+    
+    <div class="leaderboard-content active">
+      <div class="filters">
+        <div class="filter-group">
+          <div class="filter-label">Date</div>
+          <select class="filter-select" id="dateFilter">
+            <option value="weekly">Weekly</option>
+            <option value="monthly">Monthly</option>
+            <option value="yearly">Yearly</option>
+            <option value="all-time">All Time</option>
+          </select>
+        </div>
+        <div class="filter-group">
+          <div class="filter-label">Date</div>
+          <select class="filter-select" id="scoreFilter">
+            <option value="total">Total Score</option>
+            <option value="components">New Components</option>
+            <option value="updates">Updates</option>
+            <option value="fixes">Bug Fixes</option>
+          </select>
+        </div>
+      </div>
+      
+      <div class="cards-container" id="cardsContainer">
+        <!-- Cards will be inserted here -->
+      </div>
+    </div>
+    
+    <div class="settings-content" id="settingsContent">
+      <h3>Settings</h3>
+      <p>Settings panel coming soon...</p>
     </div>
   </div>
 
@@ -195,71 +327,117 @@
     let contributors = [
       {
         id: 1,
-        name: 'Sarah Chen',
+        name: 'Alex Dolan',
         subtitle: 'The Aesthetic Apex',
         stats: {
           newComponents: 12,
           updates: 34,
-          bugFixes: 8,
-          documentation: 15,
+          bugFixes: 12,
+          documentation: 12,
           total: 69
-        }
+        },
+        achievements: [
+          { icon: '📚', text: 'Documentation hero', bonus: '+3' },
+          { icon: '🎨', text: 'Component Master', bonus: '+5' },
+          { icon: '✨', text: 'Consistency Champion', bonus: '+2' }
+        ]
       },
       {
         id: 2,
-        name: 'Marcus Johnson',
-        subtitle: 'The Code Craftsman',
+        name: 'Arianna Vettraino',
+        subtitle: 'The Aesthetic Apex',
         stats: {
-          newComponents: 8,
-          updates: 28,
+          newComponents: 12,
+          updates: 34,
           bugFixes: 12,
-          documentation: 6,
-          total: 54
-        }
+          documentation: 12,
+          total: 69
+        },
+        achievements: [
+          { icon: '🐛', text: 'Bug Squasher', bonus: '+2' }
+        ]
       },
       {
         id: 3,
-        name: 'Emily Rodriguez',
+        name: 'Matthew Allen',
         subtitle: 'The Innovation Engine',
         stats: {
           newComponents: 15,
           updates: 22,
           bugFixes: 4,
           documentation: 12,
-          total: 53
-        }
+          total: 69
+        },
+        achievements: [
+          { icon: '🎨', text: 'Component Master', bonus: '+5' },
+          { icon: '🏗️', text: 'System Architect', bonus: '+4' },
+          { icon: '🚀', text: 'Prolific Creator', bonus: '+6' }
+        ]
       }
     ];
 
+    function getTrophyIcon(rank) {
+      switch (rank) {
+        case 1: return '🏆';
+        case 2: return '🏆';
+        case 3: return '🏆';
+        default: return '👤';
+      }
+    }
+
     function createContributorCard(contributor, rank) {
+      let achievementsHTML = '';
+      
+      if (contributor.achievements && contributor.achievements.length > 0) {
+        // Show the first achievement as the main badge
+        const mainAchievement = contributor.achievements[0];
+        achievementsHTML = `<div class="achievement">
+          <span class="achievement-icon">${mainAchievement.icon}</span>
+          <span>${mainAchievement.text}</span>
+        </div>`;
+        
+        // If there are more achievements, show the +X pill
+        if (contributor.achievements.length > 1) {
+          const additionalCount = contributor.achievements.length - 1;
+          achievementsHTML += `<div class="achievement achievement-count">
+            <span>+${additionalCount}</span>
+          </div>`;
+        }
+      }
+
       return `
         <div class="card card-rank-${rank}">
-          <div class="card-top">
-            <div class="card-left">
-              <div class="card-name">${contributor.name}</div>
-              <div class="card-subtitle">${contributor.subtitle}</div>
+          <div class="card-header">
+            <div class="card-info">
+              <div class="trophy-icon">${getTrophyIcon(rank)}</div>
+              <div class="card-details">
+                <h3>${contributor.name}</h3>
+                <p>${contributor.subtitle}</p>
+              </div>
             </div>
             <div class="card-score">${contributor.stats.total}</div>
           </div>
-          <div class="card-divider"></div>
-          <div class="card-bottom">
+          
+          <div class="stats-grid">
             <div class="stat-item">
-              <div class="stat-number">${contributor.stats.newComponents}</div>
-              <div class="stat-label">new</div>
+              <span class="stat-number">${contributor.stats.newComponents}</span>
+              <span class="stat-label">new</span>
             </div>
             <div class="stat-item">
-              <div class="stat-number">${contributor.stats.updates}</div>
-              <div class="stat-label">Updates</div>
+              <span class="stat-number">${contributor.stats.updates}</span>
+              <span class="stat-label">Updates</span>
             </div>
             <div class="stat-item">
-              <div class="stat-number">${contributor.stats.bugFixes}</div>
-              <div class="stat-label">Fixes</div>
+              <span class="stat-number">${contributor.stats.bugFixes}</span>
+              <span class="stat-label">Fixes</span>
             </div>
             <div class="stat-item">
-              <div class="stat-number">${contributor.stats.documentation}</div>
-              <div class="stat-label">Docs</div>
+              <span class="stat-number">${contributor.stats.documentation}</span>
+              <span class="stat-label">Docs</span>
             </div>
           </div>
+          
+          ${achievementsHTML ? `<div class="achievements">${achievementsHTML}</div>` : ''}
         </div>
       `;
     }
@@ -273,11 +451,41 @@
     }
 
     function refreshData() {
-      // Send message to Figma backend for real data
       if (typeof parent !== 'undefined') {
         parent.postMessage({ pluginMessage: { type: 'get-component-data' } }, '*');
       }
     }
+
+    // Tab functionality
+    document.addEventListener('click', function(e) {
+      if (e.target.classList.contains('tab')) {
+        // Remove active class from all tabs and content
+        document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
+        document.querySelectorAll('.leaderboard-content, .settings-content').forEach(content => content.classList.remove('active'));
+        
+        // Add active class to clicked tab
+        e.target.classList.add('active');
+        
+        // Show corresponding content
+        const tabName = e.target.dataset.tab;
+        if (tabName === 'leaderboard') {
+          document.querySelector('.leaderboard-content').classList.add('active');
+        } else if (tabName === 'settings') {
+          document.querySelector('.settings-content').classList.add('active');
+        }
+      }
+    });
+
+    // Filter functionality
+    document.getElementById('dateFilter').addEventListener('change', function() {
+      // Handle date filter change
+      refreshData();
+    });
+
+    document.getElementById('scoreFilter').addEventListener('change', function() {
+      // Handle score filter change
+      refreshData();
+    });
 
     // Auto-refresh data every 30 seconds
     setInterval(refreshData, 30000);
@@ -294,7 +502,7 @@
     // Initial render and data request
     document.addEventListener('DOMContentLoaded', function() {
       renderCards();
-      refreshData(); // Request fresh data from Figma
+      refreshData();
     });
 
     // Fallback if DOMContentLoaded already fired
